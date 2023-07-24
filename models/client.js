@@ -1,8 +1,11 @@
+// const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 
 const clientSchema = Schema({
+
+    // _id: mongoose.Schema.Types.ObjectId,
 
     name:{
         type: String,
@@ -27,4 +30,4 @@ const clientSchema = Schema({
 
 });
 
-module.exports = Client = mongoose.model("Client", clientSchema);
+module.exports = Client = mongoose.model("client", clientSchema);

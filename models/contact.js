@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 
 const contactSchema = Schema({
 
+    // _id: mongoose.Schema.Types.ObjectId,
+
     firstname:{
         type: String,
         required: true,
@@ -16,8 +18,10 @@ const contactSchema = Schema({
 
     email:{
         type: String,
+        minLength: 10,
         required: true,
-        unique: true,
+        lowercase: true,
+        unique : true,
     },
 
     // no_linked_contacts: {
@@ -33,4 +37,4 @@ const contactSchema = Schema({
 });
 
 
-module.exports = Contact = mongoose.model("Contact", contactSchema);
+module.exports = Contact = mongoose.model("contact", contactSchema);
