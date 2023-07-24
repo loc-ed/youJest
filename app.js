@@ -20,7 +20,7 @@ mongoose.connect(process.env.CONN_URL)
   });
 
 app.get("/", (req, res) => {
-  res.send(`<h1>I hate you!</h1>`)
+  res.send(`<h1>BinaryCity DashBoard</h1>`)
 });
 app.listen(port, () => {
   console.log(`Application is listening at port ${port}`);
