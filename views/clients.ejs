@@ -1,0 +1,40 @@
+<%- include('./layout/header'); %>
+
+<div class="container">
+  <div class="row my-4">
+    <div class="col-lg-12">
+
+      <div class="table-responsive">
+        <% if (clients != '') { %>
+          <table class="table table-striped text-center">
+            <thead>
+              <tr class ="table-dark">
+                <th scope="col">Name</th>
+                <th scope="col">Client Code</th>
+                <th scope="col">No. Contacts </th>
+                <th scope="col">Action </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% clients.forEach((row, index) => { %>
+                <tr class="align-middle">
+                  <td><%= row.name %></td>
+                  <td><%= row.client_code %></td>
+                  <td><%= row.contacts.length %></td>
+                  <td>
+                    <a href="" class="text-success"><i class="fas fa-solid fa-pen-to-square"></i></a>
+                    <a href="" class="text-danger"><i class="fas fa-trash fa-lg mx-1"></i></a>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } else { %>
+          <h1 class="text-center text secondary mt-5">No clients found in the database</h1>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('./layout/footer'); %>

@@ -8,7 +8,10 @@ module.exports = class ClientService{
             if (!allClients) {
                 res.status(404).json("There are no clients in the database!")
             }
-            res.json(allClients)
+            // res.json(allClients)
+            res.render('clients', {
+                clients: allClients
+            })
         } catch (error) {
             res.status(500).json("Unable to access client list")
         }
@@ -19,16 +22,19 @@ module.exports = class ClientService{
             let count = await Client.countDocuments() + 1
             let clientNumber = count.toString()
             let pad = '000'
-            console.log(count)
             let data = req.body 
             const newClient = {
                 name: data.name,
-                client_code: data.name.substring(0,3) + (pad + clientNumber).slice(-pad.length),
+                client_code: data.name.substring(0,3).toUpperCase() + (pad + clientNumber).slice(-pad.length),
             }
             const response = await new Client(newClient).save();
-            res.json(response);
+            req.session.message = {
+                type: 'success',
+                message : "client added sucessfully"
+            }
+            res.redirect('/')
         } catch (error) {
-            res.status(500).json(`Unable to add new client to DB`);
+            res.status(500).json(`Unable to add new client to DB : ${error}`);
         } 
     }
 

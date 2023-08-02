@@ -2,45 +2,51 @@ require('dotenv').config();
 const express = require("express")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
-// const expressLayouts = require("express-ejs-layouts");
-// const path = require("path")
+var session = require('express-session')
 
 const clients = require("./routes/clientRoutes");
 const contacts = require("./routes/contactRoutes");
 
 const app = express();
 
-// app.use(
-//   '/static',
-//   express.static(path.join(__dirname, 'public')),
-// );
-
-app.set('view engine', 'ejs');
-
-// app.use(expressLayouts);
-
+//middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const port = process.env.PORT;
 
-app.get('/', function(req, res) {
-  res.render('home')
+app.use(session({
+  secret:"its a secret",
+  resave: false,
 })
+);
+
+app.use((req,res, next) => {
+  res.locals.message = req.session.message;
+  delete req.session.message;
+  next();
+})
+
+  
+//set template engine
+app.set('view engine', 'ejs');
+
+
+const port = process.env.PORT;
 
 mongoose.connect(process.env.CONN_URL)
   .then(()=> {
     console.log('You successfully connected to MongoDB!');
   })
   .catch((error)=> {
-    console.log('Error connecting to MongoDB');
+    console.log(`Error connecting to MongoDB : ${error}`);
   });
 
 app.listen(port, () => {
   console.log(`Application is listening at port ${port}`);
 });
   
-app.use("/api/v1/clients", clients);
-app.use("/api/v1/contacts", contacts);
+app.use("/", clients);
+// app.use("/contacts", contacts);
+app.use("/contacts", contacts);
 
-;
+
 

@@ -8,7 +8,9 @@ module.exports = class ContactService{
             if (!allContacts) {
                 res.status(404).json("There are no contacts in the database!")
             }
-            res.json(allContacts)
+            res.render('contacts', {
+                contacts: allContacts
+            })
         } catch (error) {
             res.status(500).json("Unable to access contact list")
         }
@@ -23,7 +25,11 @@ module.exports = class ContactService{
                 email: data.email,
             }
            const response = await new Contact(newContact).save();
-           res.json(response);
+           req.session.message = {
+            type: 'success',
+            message : "contact added sucessfully"
+        }
+        res.redirect('/contacts')
         } catch (error) {
             res.status(500).json(`Unable to add new contact to DB`);
         } 
